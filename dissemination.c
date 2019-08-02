@@ -40,14 +40,11 @@ int main(int argc, char *argv[])
 	for(i=0;i<no_of_barriers;i++){
 		time_before = MPI_Wtime();
 		gtmpi_barrier();
-//		gtmpi_barrier();
-//		gtmpi_barrier();
 		time_after = MPI_Wtime();
 		total_time+=(time_after-time_before);
 		printf("Processor %d is on barrier %d and time taken is %f\n",id,i,time_after-time_before);
 
 	}
-	//printf("Time taken is %f for 3 barriers per loop  \n",total_time/1000);
 	printf("Average Time =  %f\n",total_time/1000);
 	gtmpi_finalize();
 	return 0;
