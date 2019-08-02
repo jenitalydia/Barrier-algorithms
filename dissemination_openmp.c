@@ -9,7 +9,6 @@ struct flags {
 	int *partnerflags[2][1000];
 };
 
-//void dissemination_barrier(struct*,int *, int *, int);
 
 int source(int,int,int);
 
@@ -35,7 +34,6 @@ int main(int argc, char *argv[])
 	int no_of_threads = atoi(argv[1]);
 	int no_of_barriers_openmp = atoi(argv[2]);
 
-	//int num_rounds = logbase2(no_of_threads);
 	int rounds = ceil(log2(no_of_threads));
 	struct flags allnodes[no_of_threads]; 
 	int i=0;
