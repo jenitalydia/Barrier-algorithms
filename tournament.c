@@ -39,41 +39,36 @@ int id;
 struct rounds *in_round;
 
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
 	double time_before, time_after, total_time=0;
 	int ret_val;
 	int i;
 	ret_val = MPI_Init(&argc,&argv);
 	
-
 	gtmpi_init();
 	
-	if (ret_val != MPI_SUCCESS)
-	{
+	if (ret_val != MPI_SUCCESS) {
 		printf("MPI failed\n");
 		MPI_Abort(MPI_COMM_WORLD, ret_val);
 	}
-	for(i=0;i<1000;i++){
+	for(i = 0; i < 1000; i++) {
 		time_before = MPI_Wtime();
 		gtmpi_barrier();
-//		gtmpi_barrier();
-//		gtmpi_barrier();
 		time_after = MPI_Wtime();
 		total_time+=(time_after-time_before);
-	printf("Processor %d is at barrier %d and the time taken is %f\n",id,i,time_after-time_before);	
+		printf("Processor %d is at barrier %d and the time taken is %f\n",id,i,time_after-time_before);	
 
 	}
-//	printf("Time taken
 	printf("Average Time =  %f\n",total_time/1000);
 	gtmpi_finalize();
 	return 0;
 }
-int logbase2(int x){	
+int logbase2(int x) {	
 	return (x>1)? 1+logbase2(x/2):0;
 }
 
 void gtmpi_init(){
+	
 	int k;
 	MPI_Comm_size(MPI_COMM_WORLD,&P);
 	MPI_Comm_rank(MPI_COMM_WORLD, &id);
@@ -82,10 +77,10 @@ void gtmpi_init(){
 
 	in_round = calloc(num_in_rounds+1, sizeof(struct rounds));
 	
-	for(k=0;k<=num_in_rounds;k++){
+	for(k = 0; k <= num_in_rounds; k++) {
 
 		in_round[k].sendbuf = 1;
-		if(k==0){
+		if(k == 0){
 			in_round[k].role = DROPOUT;
 		}
 		
@@ -116,8 +111,8 @@ void gtmpi_init(){
 	}
 }
 
-void gtmpi_barrier(){
-	int i=1;
+void gtmpi_barrier() {
+	int i = 1;
 	int flag = 0;
 
 	while(i <= num_in_rounds){
@@ -154,9 +149,9 @@ void gtmpi_barrier(){
 	}
 
 	
-	while(i > 0){
+	while(i > 0) {
 		i--;
-		if(in_round[i].role == WINNER){
+		if(in_round[i].role == WINNER) {
 			
 			MPI_Send(&in_round[i].sendbuf, 1, MPI_INT, in_round[i].opponent, i, MPI_COMM_WORLD);
 			
@@ -180,6 +175,5 @@ void gtmpi_barrier(){
 void gtmpi_finalize()
 {
 	free(in_round);
-//	printf("OVER!!!\n" );
 	MPI_Finalize();
 }
