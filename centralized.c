@@ -30,7 +30,6 @@ int no_of_barriers_openmp = atoi(argv[2]);
 	  		printf("Thread id is %d\n", omp_get_thread_num());
 	  		end_time = omp_get_wtime();
 	  		total_time+=(end_time-start_time);
-	  	//	printf("Time taken to complete each barrier is %f\n",total_time);
 	  	}
 
   	}
